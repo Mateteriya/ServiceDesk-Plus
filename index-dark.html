@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,26 +28,7 @@
       --header-gradient: linear-gradient(160deg, #2e261d 0%, #261f18 50%, #201a14 100%);
       --header-accent-line: linear-gradient(90deg, #e8b84a, #f5d078, #d4a02a);
     }
-    /* Светлая тема — тёплые тона по всему документу + акценты */
-    [data-theme="light"] {
-      --bg: #e5e2dc;
-      --surface: #f7f5f0;
-      --surface2: #f0ede6;
-      --surface3: #eae6df;
-      --section-bg: #efebe4;
-      --block-bg: #f5f2eb;
-      --accent: #1a56db;
-      --accent2: #059669;
-      --accent3: #7c3aed;
-      --accent-soft: rgba(26, 86, 219, 0.12);
-      --text: #2c2520;
-      --text-muted: #5c534a;
-      --border: #ddd8ce;
-      --shadow: rgba(0, 0, 0, 0.06);
-      --header-bg: #f4f1ea;
-      --header-gradient: linear-gradient(160deg, #f6f3ec 0%, #f0ebe2 50%, #ebe6dd 100%);
-      --header-accent-line: linear-gradient(90deg, #1a56db, #059669, #7c3aed);
-    }
+    /* В этой странице только тёмная тема (для PDF-сервисов, которые не применяют data-theme) */
     * { box-sizing: border-box; }
     html { overflow-x: hidden; }
     body {
