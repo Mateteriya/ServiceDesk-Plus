@@ -1,0 +1,7 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+# Сгенерированный DOCX (при желании не коммитить — раскомментируйте следующую строку)
+# ServiceDesk-Plus-обзор.docx

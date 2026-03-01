@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Особенности и функционал ServiceDesk Plus ManageEngine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* Тёмная тема — глубокий шоколадно-коричневый + насыщенное золото */
+    :root, [data-theme="dark"] {
+      --bg: #1a1510;
+      --surface: #261f18;
+      --surface2: #30281f;
+      --surface3: #3a3026;
+      --section-bg: #201a14;
+      --block-bg: #2a231b;
+      --accent: #e8b84a;
+      --accent2: #f5d078;
+      --accent3: #d4a02a;
+      --accent-soft: rgba(232, 184, 74, 0.22);
+      --text: #f2ebdf;
+      --text-muted: #a89880;
+      --border: #453829;
+      --shadow: rgba(0, 0, 0, 0.4);
+      --header-bg: #261f18;
+      --header-gradient: linear-gradient(160deg, #2e261d 0%, #261f18 50%, #201a14 100%);
+      --header-accent-line: linear-gradient(90deg, #e8b84a, #f5d078, #d4a02a);
+    }
+    /* Светлая тема — тёплые тона по всему документу + акценты */
+    [data-theme="light"] {
+      --bg: #e5e2dc;
+      --surface: #f7f5f0;
+      --surface2: #f0ede6;
+      --surface3: #eae6df;
+      --section-bg: #efebe4;
+      --block-bg: #f5f2eb;
+      --accent: #1a56db;
+      --accent2: #059669;
+      --accent3: #7c3aed;
+      --accent-soft: rgba(26, 86, 219, 0.12);
+      --text: #2c2520;
+      --text-muted: #5c534a;
+      --border: #ddd8ce;
+      --shadow: rgba(0, 0, 0, 0.06);
+      --header-bg: #f4f1ea;
+      --header-gradient: linear-gradient(160deg, #f6f3ec 0%, #f0ebe2 50%, #ebe6dd 100%);
+      --header-accent-line: linear-gradient(90deg, #1a56db, #059669, #7c3aed);
+    }
+    * { box-sizing: border-box; }
+    html { overflow-x: hidden; }
+    body {
+      overflow-x: hidden;
+      margin: 0;
+      font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 19px;
+      line-height: 1.72;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .container {
+      max-width:  min(1160px, 96%);
+      width: 100%;
+      margin: 0 auto;
+      padding: 40px 24px 56px;
+    }
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    header {
+      padding: 24px 24px 20px;
+      margin: 0 -24px 0;
+      background: var(--header-gradient);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px var(--border), 0 6px 24px var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse 70% 40% at 50% 0%, var(--accent-soft), transparent 55%);
+      pointer-events: none;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--header-accent-line);
+      border-radius: 0 0 16px 16px;
+    }
+    header .header-row { position: relative; z-index: 1; }
+    .header-logo {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+    }
+    .header-logo img {
+      height: 40px;
+      width: auto;
+      max-width: 160px;
+      object-fit: contain;
+      display: block;
+    }
+    [data-theme="dark"] .header-logo:not(.header-logo-right) img { mix-blend-mode: normal; filter: invert(1); }
+    [data-theme="light"] .header-logo:not(.header-logo-right) img { mix-blend-mode: multiply; opacity: 0.9; }
+    /* Фирменный логотип справа: на светлой теме инвертируем только яркость, цвет красных элементов сохраняем (invert + hue-rotate 180°) */
+    [data-theme="light"] .header-logo-right img { filter: invert(1) hue-rotate(180deg); }
+    header h1 { flex: 0 1 auto; min-width: 0; max-width: 32em; padding: 0 0.25em; margin: 0 0.5em; }
+    header .nav-anchors { flex: 0 0 auto; }
+    h1 {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: clamp(1.35rem, 3.2vw, 1.65rem);
+      font-weight: 600;
+      margin: 0;
+      letter-spacing: -0.03em;
+      line-height: 1.3;
+      color: var(--text);
+    }
+    h2 {
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 1.65rem;
+      font-weight: 600;
+      margin: 0 0 1.2em;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: -0.01em;
+    }
+    h2::before {
+      content: '';
+      width: 5px;
+      height: 1.1em;
+      background: linear-gradient(180deg, var(--accent), var(--accent2));
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    h3 {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1.22rem;
+      font-weight: 600;
+      margin: 0 0 0.45em;
+      color: var(--text);
+      letter-spacing: 0.01em;
+    }
+    p {
+      margin: 0 0 1em;
+      color: var(--text);
+      font-size: 1.05rem;
+      font-weight: 400;
+    }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    a:hover { text-decoration: underline; }
+    ul {
+      margin: 0 0 1.25em;
+      padding-left: 1.5em;
+    }
+    li {
+      margin-bottom: 0.5em;
+      padding-left: 0.25em;
+    }
+    section {
+      padding: 48px 28px;
+      margin: 0 -24px;
+      background: var(--section-bg);
+      border-radius: 16px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px var(--shadow);
+    }
+    section:nth-of-type(odd) { background: linear-gradient(180deg, var(--section-bg) 0%, var(--block-bg) 100%); }
+    section:last-of-type { margin-bottom: 0; }
+    section.intro {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding: 36px 40px;
+      background: linear-gradient(135deg, var(--block-bg) 0%, var(--surface2) 100%);
+      border-left: 4px solid var(--accent);
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+    section.intro p { margin: 0; font-size: 1.1rem; color: var(--text-muted); line-height: 1.7; flex: 1 1 auto; min-width: 0; }
+    section.intro .intro-logo {
+      flex: 0 0 auto;
+      width: 240px;
+      max-width: 40%;
+    }
+    section.intro .intro-logo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+    @media (max-width: 640px) {
+      section.intro { flex-direction: column; gap: 20px; }
+      section.intro .intro-logo { max-width: 100%; width: 200px; }
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1rem;
+      margin: 1.5em 0;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--surface);
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+    th, td {
+      padding: 18px 22px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.55;
+    }
+    th {
+      background: linear-gradient(180deg, var(--surface2) 0%, var(--surface3) 100%);
+      font-weight: 600;
+      font-size: 0.98rem;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--surface3); }
+    td { vertical-align: top; font-size: 1rem; }
+    /* Таблица редакций: оттенки по строкам (аккуратно, без супер-яркого) */
+    #editions .table-scroll table tbody tr:nth-child(1) td { background: #e0f2fe; }
+    #editions .table-scroll table tbody tr:nth-child(2) td { background: #bae6fd; }
+    #editions .table-scroll table tbody tr:nth-child(3) td { background: #a5f3fc; }
+    #editions .table-scroll table tbody tr:nth-child(1):hover td { background: #cae8fe; }
+    #editions .table-scroll table tbody tr:nth-child(2):hover td { background: #7dd3fc; }
+    #editions .table-scroll table tbody tr:nth-child(3):hover td { background: #67e8f9; }
+    [data-theme="dark"] #editions .table-scroll table tbody tr:nth-child(1) td { background: rgba(56, 189, 248, 0.12); }
+    [data-theme="dark"] #editions .table-scroll table tbody tr:nth-child(2) td { background: rgba(56, 189, 248, 0.18); }
+    [data-theme="dark"] #editions .table-scroll table tbody tr:nth-child(3) td { background: rgba(34, 211, 238, 0.16); }
+    [data-theme="dark"] #editions .table-scroll table tbody tr:nth-child(1):hover td { background: rgba(56, 189, 248, 0.2); }
+    [data-theme="dark"] #editions .table-scroll table tbody tr:nth-child(2):hover td { background: rgba(56, 189, 248, 0.26); }
+    [data-theme="dark"] #editions .table-scroll table tbody tr:nth-child(3):hover td { background: rgba(34, 211, 238, 0.24); }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 1.5em;
+    }
+    .card {
+      background: var(--block-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 2px 14px var(--shadow);
+      border-top: 3px solid var(--accent);
+    }
+    .card:last-child { border-top-color: var(--accent2); }
+    .card h3 { margin-top: 0; font-size: 1.15rem; color: var(--accent); }
+    .card p { font-size: 1.03rem; margin-bottom: 0; line-height: 1.68; }
+    /* Вытянутые карточки друг под другом (одна колонка) */
+    .card-grid-stack {
+      grid-template-columns: 1fr;
+      max-width: 100%;
+    }
+    .card-grid-stack .card {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 24px;
+      padding: 20px 28px;
+    }
+    .card-grid-stack .card h3 {
+      flex: 0 0 220px;
+      font-size: 1.08rem;
+      margin: 0;
+      padding-top: 0.1em;
+    }
+    .card-grid-stack .card p {
+      flex: 1;
+      margin: 0;
+      min-width: 0;
+    }
+    .nav-anchors {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0;
+      align-items: center;
+    }
+    .nav-anchors a {
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 10px 16px;
+      border-radius: 10px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      transition: color 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.01em;
+      box-shadow: 0 1px 2px var(--shadow);
+    }
+    .nav-anchors a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      text-decoration: none;
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+    .sources ul { list-style: none; padding-left: 0; }
+    .sources li { margin-bottom: 12px; }
+    .sources a { word-break: break-all; }
+
+    /* Theme toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      width: 46px;
+      height: 46px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      cursor: pointer;
+      box-shadow: 0 4px 16px var(--shadow);
+    }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .theme-toggle svg { width: 22px; height: 22px; }
+
+    /* Screenshots */
+    .screenshot-fig { margin: 1.75em 0; }
+    .screenshot-box {
+      width: 100%;
+      max-width: 100%;
+      min-height: 300px;
+      border-radius: 14px;
+      border: 1px dashed var(--border);
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 1rem;
+      overflow: hidden;
+    }
+    .screenshot-box img { width: 100%; height: auto; display: block; border-radius: 14px; }
+    .screenshot-fig figcaption {
+      margin-top: 12px;
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .func-grid { display: grid; grid-template-columns: 1fr; gap: 36px; }
+    .func-block {
+      padding: 24px 28px;
+      background: var(--block-bg);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px var(--shadow);
+    }
+    .func-block:last-child { margin-bottom: 0; }
+    .func-block p { margin-bottom: 0.75em; font-size: 1.03rem; }
+    .func-block h3 { margin-top: 0; }
+    .func-block h4 { font-size: 1rem; font-weight: 600; color: var(--accent); margin: 0 0 0.6em; }
+    .two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 1em; padding-top: 1em; border-top: 1px solid var(--border); }
+    .two-cols-block h4 { margin-top: 0; margin-bottom: 0.6em; }
+    .two-cols-block p { margin-bottom: 0.85em; }
+    .two-cols-block p:last-child { margin-bottom: 0; }
+    .tight-list { margin: 0 0 0 1.2em; padding-left: 0.4em; list-style: disc; }
+    .tight-list li { margin-bottom: 0.4em; padding-left: 0.25em; }
+    .tight-list li:last-child { margin-bottom: 0; }
+    @media (max-width: 720px) {
+      .two-cols { grid-template-columns: 1fr; gap: 24px; }
+      .two-cols-block { border-left: 3px solid var(--accent); padding-left: 16px; }
+    }
+
+    /* Адаптив: мобильная версия на всю ширину, без лишних отступов */
+    @media (max-width: 640px) {
+      .card-grid-stack .card { flex-direction: column; gap: 10px; }
+      .card-grid-stack .card h3 { flex: none; }
+      body { font-size: 17px; }
+      .container {
+        max-width: 100%;
+        width: 100%;
+        padding: 0 14px 40px;
+      }
+      header {
+        padding: 14px 14px 12px;
+        margin: 0 -14px 0;
+        border-radius: 0 0 12px 12px;
+      }
+      .header-row { flex-direction: column; align-items: stretch; gap: 14px; }
+      .header-logo, .header-logo-right { min-width: 0; justify-content: flex-start; margin-right: 0; margin-bottom: 4px; }
+      .header-logo img { height: 36px; }
+      header h1 { font-size: 1.22rem; }
+      .nav-anchors { gap: 6px; justify-content: flex-start; }
+      .nav-anchors a { font-size: 0.85rem; padding: 9px 14px; }
+      section {
+        padding: 28px 14px;
+        margin: 0 -14px;
+        margin-bottom: 14px;
+        border-radius: 12px;
+      }
+      section.intro { padding: 24px 14px; }
+      h1 { font-size: 1.75rem; }
+      h2 { font-size: 1.45rem; }
+      p { font-size: 1rem; }
+      th, td { padding: 12px 14px; font-size: 0.95rem; }
+      .card { padding: 20px; }
+      .func-block { padding: 20px 14px; margin-bottom: 14px; }
+      .theme-toggle { top: 12px; right: 12px; width: 42px; height: 42px; }
+    }
+    /* Таблицы на мобильных: горизонтальный скролл внутри блока, страница не растягивается */
+    .table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
+      margin: 1.5em 0;
+    }
+    .table-scroll table { min-width: 560px; }
+    table { max-width: 100%; }
+    .screenshot-box img { max-width: 100%; height: auto; }
+  </style>
+</head>
+<body data-theme="light">
+  <button type="button" class="theme-toggle" id="themeToggle" aria-label="Переключить на тёмную тему">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+  </button>
+  <div class="container">
+    <header>
+      <div class="header-row">
+        <a href="https://www.manageengine.com/products/service-desk/" target="_blank" rel="noopener" class="header-logo" aria-label="ManageEngine">
+          <img src="images/manageengine-logo.svg" alt="ManageEngine">
+        </a>
+        <h1>Особенности и функционал ServiceDesk Plus ManageEngine</h1>
+        <a href="#" class="header-logo header-logo-right" aria-label="Логотип компании">
+          <img src="images/grey_2.png" alt="Логотип компании">
+        </a>
+        <nav class="nav-anchors">
+          <a href="#about">О продукте</a>
+          <a href="#editions">Редакции</a>
+          <a href="#functionality">Функционал</a>
+          <a href="#deployment">Облако</a>
+          <a href="#msp">MSP</a>
+          <a href="#advantages">Преимущества</a>
+          <a href="#limits">Ограничения</a>
+          <a href="#glossary">Глоссарий</a>
+          <a href="#sources">Источники</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="intro">
+      <p>В этом документе описаны особенности и функционал ServiceDesk Plus ManageEngine: редакции продукта, варианты развёртывания (облако и on-premises), основные возможности по модулям, преимущества, ограничения и пояснение основных терминов.</p>
+      <div class="intro-logo" aria-hidden="true">
+        <img src="images/overview.png" alt="">
+      </div>
+    </section>
+
+    <section id="about">
+      <h2>1. О продукте</h2>
+      <p>ServiceDesk Plus — это платформа управления ИТ-услугами (ITSM) и корпоративного сервисного управления (ESM) от компании ManageEngine (подразделение Zoho Corporation). Продукт используется по всему миру: более 180 000 клиентов ManageEngine, присутствие в 190+ странах. ServiceDesk Plus поддерживает лучшие практики ITIL®, управление инцидентами, проблемами, изменениями, релизами, активами, каталог услуг, CMDB и проектами.</p>
+      <p>Продукт поставляется в трёх редакциях (Standard, Professional, Enterprise) и может разворачиваться как в облаке (SaaS), так и локально (on-premises). Это позволяет выбирать модель лицензирования и размещения под задачи организации.</p>
+      <p><strong>Основные требования, которым соответствует продукт:</strong></p>
+      <div class="card-grid card-grid-stack">
+        <div class="card">
+          <h3>Интерфейс и развёртывание</h3>
+          <p>Веб-интерфейс с локализацией (в т.ч. на русский), размещение On-Premise и в облаке, лицензии только для техников (количество пользователей-клиентов не ограничено).</p>
+        </div>
+        <div class="card">
+          <h3>REST API и интеграции</h3>
+          <p>Открытый REST API ServiceDesk Plus обеспечивает бесшовную интеграцию с ERP, CRM, системами мониторинга и другими внешними приложениями, позволяя использовать платформу как центральный оркестратор сквозных процессов.</p>
+        </div>
+        <div class="card">
+          <h3>Доступ и идентификация</h3>
+          <p>Поддержка SSO и веб-сервисов, работа на мобильных устройствах и наличие мобильного приложения.</p>
+        </div>
+        <div class="card">
+          <h3>Настройка и кастомизация</h3>
+          <p>Редактирование процессов и объектов — в графическом интерфейсе (drag & drop); для глубокой кастомизации доступны пользовательские функции и скрипты (на базе поддерживаемых технологий).</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="editions">
+      <h2>2. Три редакции продукта</h2>
+      <p>Официально предлагаются три редакции с чётким разграничением возможностей.</p>
+      <div class="table-scroll">
+        <table>
+        <thead>
+          <tr><th>Редакция</th><th>Основной фокус</th><th>Ключевые возможности</th><th>Для кого</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Standard</strong></td>
+            <td>Сервис-деск (help desk)</td>
+            <td>Управление инцидентами, портал самообслуживания, база знаний, SLA, отчёты, многоплощадочная поддержка, автоназначение заявок, интеграция с AD/LDAP, API. Без управления активами.</td>
+            <td>Небольшие команды, базовый приём и обработка заявок.</td>
+          </tr>
+          <tr>
+            <td><strong>Professional</strong></td>
+            <td>Сервис-деск + активы</td>
+            <td>Всё из Standard + управление ИТ-активами, автообнаружение устройств, сканирование по агентам и по сети, закупки и договоры, отчёты по активам. CMDB — как дополнение.</td>
+            <td>Организации, которым нужен учёт активов и лицензий вместе с заявками.</td>
+          </tr>
+          <tr>
+            <td><strong>Enterprise</strong></td>
+            <td>Полный ITSM</td>
+            <td>Всё из Professional + управление проблемами, управление изменениями и релизами, каталог услуг с многоуровневыми согласованиями, управление ИТ-проектами, полноценная CMDB.</td>
+            <td>Крупные организации и предприятия с полным циклом ITIL и проектами.</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <p>Во всех редакциях доступны: преобразование писем в заявки (email-to-ticket), интеграция с Active Directory/LDAP, поддержка нескольких порталов (ESM — корпоративное сервисное управление), SLA, база знаний, портал самообслуживания, отчёты и API. WebRemote (удалённый доступ) доступен в Professional и Enterprise версиях. Ограничения по числу активов (узлов) зависят от редакции и размера лицензии.</p>
+    </section>
+
+    <section id="functionality">
+      <h2>Функционал</h2>
+      <div class="func-grid">
+        <div class="func-block">
+          <h3>Управление инцидентами</h3>
+          <div class="two-cols">
+            <div class="two-cols-block">
+              <h4>Приём и маршрутизация</h4>
+              <ul class="tight-list">
+                <li>Регистрация обращений по нескольким каналам: портал самообслуживания, почта, телефон, системы мониторинга (в т.ч. Zabbix и др.).</li>
+                <li>Настройка правил обработки почтовых уведомлений: регистрация нового обращения, переписка в рамках открытой заявки, создание заявок от систем мониторинга.</li>
+                <li>Связывание обращений с элементами и категориями CI в CMDB.</li>
+                <li>Настраиваемый жизненный цикл заявки, автоматическое назначение техников по правилам и балансировка нагрузки.</li>
+                <li>Классификация по категориям, влиянию и срочности.</li>
+                <li>Оператор задач в заявке.</li>
+              </ul>
+            </div>
+            <div class="two-cols-block">
+              <h4>Эскалация, SLA и удобство работы</h4>
+              <ul class="tight-list">
+                <li>Автоматизация эскалации (функциональная и иерархическая).</li>
+                <li>Согласования на портале и по электронной почте.</li>
+                <li>SLA по времени реакции и решения с эскалациями и уведомлениями.</li>
+                <li>Выделение заявок цветом в зависимости от оставшегося времени по SLA.</li>
+                <li>Поиск и фильтрация списков заявок.</li>
+                <li>Интеграция с базой знаний и рекомендация статей БЗ при регистрации заявки пользователем.</li>
+              </ul>
+            </div>
+          </div>
+          <figure class="screenshot-fig">
+            <div class="screenshot-box">
+              <img src="images/incidents.png" alt="Управление инцидентами" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
+              <span class="screenshot-placeholder" style="display:block">Скриншот: список заявок / карточка инцидента (images/incidents.png)</span>
+            </div>
+            <figcaption>Работа с заявками и инцидентами</figcaption>
+          </figure>
+        </div>
+        <div class="func-block">
+          <h3>Управление активами (ITAM)</h3>
+          <div class="two-cols">
+            <div class="two-cols-block">
+              <h4>Обнаружение и учёт</h4>
+              <ul class="tight-list">
+                <li>Обнаружение устройств по сети и по агентам (Windows, macOS, Linux).</li>
+                <li>Учёт железа и ПО, управление лицензиями и соответствием.</li>
+                <li>Связь активов с заявками и CMDB для анализа влияния сбоев и планирования изменений.</li>
+              </ul>
+            </div>
+            <div class="two-cols-block">
+              <h4>Закупки и договоры</h4>
+              <ul class="tight-list">
+                <li>Управление закупками и договорами.</li>
+                <li>Напоминания об истечении гарантий и контрактов.</li>
+              </ul>
+            </div>
+          </div>
+          <figure class="screenshot-fig">
+            <div class="screenshot-box">
+              <img src="images/assets.png" alt="Управление активами" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
+              <span class="screenshot-placeholder" style="display:block">Скриншот: активы (images/assets.png)</span>
+            </div>
+            <figcaption>Учёт активов и лицензий</figcaption>
+          </figure>
+        </div>
+        <div class="func-block">
+          <h3>CMDB (база конфигураций)</h3>
+          <div class="two-cols">
+            <div class="two-cols-block">
+              <h4>Модель и визуализация</h4>
+              <ul class="tight-list">
+                <li>Ведение CMDB с различными типами связей CI, атрибутами, классификаторами и статусами (жизненный цикл CI).</li>
+                <li>Визуализация взаимосвязей конфигурационных единиц.</li>
+                <li>Динамическое взаимодействие с деревом (развёртка/свёртка, переход на нужный уровень).</li>
+              </ul>
+            </div>
+            <div class="two-cols-block">
+              <h4>Расчёт стоимости и использование</h4>
+              <ul class="tight-list">
+                <li>Расчёт и просмотр TCO для конфигурационных единиц.</li>
+                <li>Автоматизация расчёта стоимости оказания услуг в разрезе месяца и года.</li>
+                <li>Использование CMDB при анализе инцидентов, проблем и изменений для принятия решений по влиянию на инфраструктуру.</li>
+              </ul>
+            </div>
+          </div>
+          <figure class="screenshot-fig">
+            <div class="screenshot-box">
+              <img src="images/cmdb.png" alt="CMDB" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
+              <span class="screenshot-placeholder" style="display:block">Скриншот: карта связей CMDB (images/cmdb.png)</span>
+            </div>
+            <figcaption>Карта связей и элементы конфигурации</figcaption>
+          </figure>
+        </div>
+        <div class="func-block">
+          <h3>Каталог услуг</h3>
+          <div class="two-cols">
+            <div class="two-cols-block">
+              <h4>Публикация и привязки</h4>
+              <ul class="tight-list">
+                <li>Публикация ИТ- и бизнес-услуг на портале самообслуживания с настраиваемыми шаблонами запросов.</li>
+                <li>Привязка каталога к CMDB.</li>
+                <li>Привязка контрактов к услугам (расчёт стоимости предоставления услуг).</li>
+              </ul>
+            </div>
+            <div class="two-cols-block">
+              <h4>Согласования и доступ</h4>
+              <ul class="tight-list">
+                <li>Многоуровневые согласования, SLA и задачи по каждому типу услуги.</li>
+                <li>Персонализированный доступ к каталогу по ролям и правам.</li>
+                <li>Возможность создания обращения или инцидента по доступным пользователю услугам.</li>
+              </ul>
+            </div>
+          </div>
+          <figure class="screenshot-fig">
+            <div class="screenshot-box">
+              <img src="images/catalog.png" alt="Каталог услуг" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
+              <span class="screenshot-placeholder" style="display:block">Скриншот: каталог услуг (images/catalog.png)</span>
+            </div>
+            <figcaption>Каталог услуг и запросы на обслуживание</figcaption>
+          </figure>
+        </div>
+        <div class="func-block">
+          <h3>Управление изменениями и релизами</h3>
+          <div class="two-cols">
+            <div class="two-cols-block">
+              <h4>Изменения</h4>
+              <ul class="tight-list">
+                <li>Типы изменений (стандартные, срочные, критичные) с отдельными рабочими процессами.</li>
+                <li>Визуальный конструктор этапов, согласований и уведомлений.</li>
+                <li>CAB, планы внедрения и отката.</li>
+                <li>Календарь изменений и проверка конфликтов.</li>
+              </ul>
+            </div>
+            <div class="two-cols-block">
+              <h4>Релизы</h4>
+              <ul class="tight-list">
+                <li>Управление релизами с шаблонами и этапами.</li>
+                <li>Связь релизов с изменениями и активами.</li>
+              </ul>
+            </div>
+          </div>
+          <figure class="screenshot-fig">
+            <div class="screenshot-box">
+              <img src="images/changes.png" alt="Управление изменениями" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
+              <span class="screenshot-placeholder" style="display:block">Скриншот: процесс изменения (images/changes.png)</span>
+            </div>
+            <figcaption>Жизненный цикл изменения</figcaption>
+          </figure>
+        </div>
+        <div class="func-block">
+          <h3>База знаний и портал самообслуживания</h3>
+          <div class="two-cols">
+            <div class="two-cols-block">
+              <h4>База знаний</h4>
+              <ul class="tight-list">
+                <li>База знаний на портале самообслуживания с полнотекстовым поиском, категориями и процессом согласования статей.</li>
+                <li>Рекомендация статей БЗ при регистрации заявки пользователем.</li>
+                <li>Публикация решений на портале для снижения потока типовых заявок.</li>
+              </ul>
+            </div>
+            <div class="two-cols-block">
+              <h4>Портал и интерфейс</h4>
+              <ul class="tight-list">
+                <li>Брендирование и изменение внешнего вида портала.</li>
+                <li>Персонализация в зависимости от прав пользователя (роли): доступность и отображение списков услуг.</li>
+                <li>События и новости на портале.</li>
+                <li>Виджеты, каталог услуг, отслеживание статуса запросов.</li>
+                <li>Настройка интерфейса в зависимости от роли пользователя.</li>
+                <li>Поддержка мобильных приложений.</li>
+              </ul>
+            </div>
+          </div>
+          <figure class="screenshot-fig">
+            <div class="screenshot-box">
+              <img src="images/portal.png" alt="Портал самообслуживания" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
+              <span class="screenshot-placeholder" style="display:block">Скриншот: портал (images/portal.png)</span>
+            </div>
+            <figcaption>Портал самообслуживания и база знаний</figcaption>
+          </figure>
+        </div>
+        <div class="func-block">
+          <h3>Отчётность и дашборды</h3>
+          <div class="two-cols">
+            <div class="two-cols-block">
+              <h4>Отчёты</h4>
+              <ul class="tight-list">
+                <li>Формирование отчётов в графическом интерфейсе (настройка мышью).</li>
+                <li>Отчёты в рамках разделов (инциденты, активы, изменения, SLA, загрузка техников), настраиваемые в графическом интерфейсе.</li>
+                <li>Возможность самостоятельного написания SQL-запросов для отчётов (on-premises).</li>
+                <li>Выгрузка отчётов в xls, pdf, xml.</li>
+                <li>Единый отчёт по мониторингу SLA всех услуг.</li>
+              </ul>
+            </div>
+            <div class="two-cols-block">
+              <h4>Дашборды и аналитика</h4>
+              <ul class="tight-list">
+                <li>Планировщик рассылки отчётов по почте.</li>
+                <li>Интерактивные дашборды с виджетами.</li>
+                <li>Интеграция с Zoho Analytics / Analytics Plus для расширенной аналитики.</li>
+              </ul>
+            </div>
+          </div>
+          <figure class="screenshot-fig">
+            <div class="screenshot-box">
+              <img src="images/reports.png" alt="Отчёты и дашборды" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
+              <span class="screenshot-placeholder" style="display:block">Скриншот: дашборд (images/reports.png)</span>
+            </div>
+            <figcaption>Отчёты и панели мониторинга</figcaption>
+          </figure>
+        </div>
+        <div class="func-block">
+          <h3>Enterprise Service Management (ESM)</h3>
+          <div class="two-cols">
+            <div class="two-cols-block">
+              <h4>Суть ESM</h4>
+              <ul class="tight-list">
+                <li>Enterprise Service Management — управление корпоративным сервисом в едином информационном пространстве предприятия.</li>
+                <li>Одновременная автоматизация нескольких направлений: ИТ-поддержка, оборудование, HR, финансы и др.</li>
+                <li>Для каждого отдела или организации создаётся отдельный экземпляр службы поддержки со своими шаблонами, пользователями и рабочими процессами.</li>
+                <li>Поддержка методологии ITIL для ИТ-подразделений.</li>
+              </ul>
+            </div>
+            <div class="two-cols-block">
+              <h4>Портал ESM и экземпляры</h4>
+              <ul class="tight-list">
+                <li>Портал ESM — единая консоль, в которой пользователи работают с разными экземплярами служб, создают и обрабатывают заявки, управляют настройками.</li>
+                <li>Экземпляры могут работать независимо друг от друга, использовать общие справочники или обмениваться данными внутри системы.</li>
+                <li>Каталог ESM: пользователи, экземпляры, права доступа, авторизация.</li>
+              </ul>
+            </div>
+          </div>
+          <figure class="screenshot-fig">
+            <div class="screenshot-box">
+              <img src="images/esm.png" alt="Портал ESM и экземпляры служб" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
+              <span class="screenshot-placeholder" style="display:block">Скриншот: портал ESM / экземпляры служб (images/esm.png)</span>
+            </div>
+            <figcaption>Портал ESM и работа с экземплярами</figcaption>
+          </figure>
+        </div>
+        <div class="func-block">
+          <h3>Интеграции</h3>
+          <div class="two-cols">
+            <div class="two-cols-block">
+              <h4>ManageEngine и мониторинг</h4>
+              <ul class="tight-list">
+                <li>Нативные интеграции: OpManager, Endpoint Central (Desktop Central), Applications Manager, ADManager Plus, ADSelfService Plus, Password Manager Pro, Site24x7.</li>
+                <li>Настройка интеграции с Zabbix и правил регистрации инцидентов от систем мониторинга.</li>
+              </ul>
+            </div>
+            <div class="two-cols-block">
+              <h4>Бизнес-системы и API</h4>
+              <ul class="tight-list">
+                <li>Интеграция с Jira (создание задач по проектам, получение задач из проектов, создание проектов).</li>
+                <li>Бизнес-интеграции: Outlook, Office 365, Microsoft Teams, календарь O365.</li>
+                <li>Поддержка WebServices, REST API. Полный доступ к данным и автоматизации через API.</li>
+              </ul>
+            </div>
+          </div>
+          <figure class="screenshot-fig">
+            <div class="screenshot-box">
+              <img src="images/integrations.png" alt="Интеграции" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
+              <span class="screenshot-placeholder" style="display:block">Скриншот: настройки интеграций (images/integrations.png)</span>
+            </div>
+            <figcaption>Подключение внешних систем</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="deployment">
+      <h2>3. Облачное и локальное размещение</h2>
+      <p>ServiceDesk Plus доступен в двух вариантах развёртывания: облако (SaaS) и локальное развёртывание (on-premises).</p>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Облако (Cloud)</h3>
+          <p>Подписка (ежемесячная или годовая), хостинг в дата-центрах ManageEngine в разных регионах (США, ЕС, Австралия, Индия, Китай, Япония, Канада, Великобритания, Саудовская Аравия и др.).</p>
+        </div>
+        <div class="card">
+          <h3>Локальное развёртывание (On-Premises)</h3>
+          <p>Установка на собственной инфраструктуре заказчика. Лицензия — бессрочная (perpetual) или годовая (подписка). Полный контроль над данными и настройками. Часть возможностей ИИ и отдельные облачные интеграции в on-premises могут отличаться. Требования: ОС Windows или Linux; СУБД по документации.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="msp">
+      <h2>4. ServiceDesk Plus MSP</h2>
+      <p>ServiceDesk Plus MSP — отдельный продукт для провайдеров управляемых услуг (MSP). Единая платформа объединяет возможности ITSM (в т.ч. ITAM, CMDB) и элементы PSA: настройка и предоставление сервисов для нескольких заказчиков с учётом прибыльности.</p>
+      <ul>
+        <li>Мультитенантность: отдельные настройки автоматизации, SLA, базы знаний, активы и отчёты для каждого клиента.</li>
+        <li>Мультисайтовая поддержка: управление несколькими площадками заказчиков из одной консоли с разными часовыми поясами, правилами и SLA.</li>
+        <li>Биллинг: предопределённые сервисные планы и рекуррентные платежи.</li>
+        <li>Интеграция с RMM-инструментами ManageEngine (например, RMM Central): единая консоль для мониторинга и сервис-деска.</li>
+        <li>Автоматизация: визуальные конструкторы рабочих процессов без кода.</li>
+        <li>ИИ-агент Zia доступен как первая линия поддержки (функция не адаптирована для российского рынка).</li>
+      </ul>
+      <p>MSP доступен в облаке и on-premises; редакции и цены отличаются от «обычного» ServiceDesk Plus. Подробности: <a href="https://www.manageengine.com/products/service-desk-msp/" target="_blank" rel="noopener">manageengine.com/products/service-desk-msp</a></p>
+    </section>
+
+    <section id="advantages">
+      <h2>5. Преимущества и ключевые особенности ServiceDesk Plus</h2>
+      <ul>
+        <li>Масштабируемость по зрелости: три редакции позволяют начать с help desk и поэтапно подключать активы, затем изменения, проблемы, каталог услуг, проекты и CMDB.</li>
+        <li>Неограниченное количество конечных пользователей и согласующих: лицензия считается на техников; запросчики и согласующие не лицензируются отдельно.</li>
+        <li>Готовая автоматизация: почтовые правила, бизнес-правила, триггеры, правила полей и форм (создание и редактирование произвольных полей формы в зависимости от выбранных значений), настраиваемый жизненный цикл заявки, планировщик задач; для сложных сценариев — пользовательские функции и скрипты.</li>
+        <li>Персонализация и настройка: интерфейсы в зависимости от пользователя, роли и места работы; управление ролями и правами доступа (по ролям и услугам); управление данными (услуги, роли, пользователи, группы); расширяемость системы.</li>
+        <li>Интеграции: нативные интеграции с продуктами ManageEngine (OpManager, Endpoint Central, ADManager Plus, ADSelfService Plus, Password Manager Pro, Site24x7 и др.), а также с Outlook, Office 365, Microsoft Teams, Jira, полный доступ — через REST API.</li>
+        <li>ИИ и аналитика: умная категоризация заявок, предсказание приоритета, автоназначение техников, виртуальный агент Zia, интеграция с Zoho Analytics/Analytics Plus. (Функции помощника Zia пока не адаптированы для использования в России.)</li>
+        <li>Признание рынка: ManageEngine фигурирует в отчётах Gartner (Magic Quadrant для ITSM) и Forrester (Total Economic Impact).</li>
+        <li>Функциональное мобильное приложение для техников и пользователей (в том числе от российских разработчиков).</li>
+      </ul>
+    </section>
+
+    <section id="limits">
+      <h2>Ограничения и особенности</h2>
+      <p>Часть продвинутых возможностей ИИ и интеграций доступна только в облачной версии или в определённых регионах. В редакции Standard нет управления активами и WebRemote (удалённый доступ к рабочим станциям).</p>
+    </section>
+
+    <section id="glossary">
+      <h2>Глоссарий</h2>
+      <p>Краткие пояснения терминов, используемых в документе.</p>
+      <div class="table-scroll">
+        <table>
+        <thead>
+          <tr><th>Термин</th><th>Пояснение</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>ITSM</strong></td><td>Управление ИТ-услугами (IT Service Management) — совокупность процессов и практик для проектирования, предоставления и поддержки ИТ-услуг.</td></tr>
+          <tr><td><strong>ESM</strong></td><td>Корпоративное сервисное управление (Enterprise Service Management) — распространение подходов ITSM на другие подразделения (HR, финансы, эксплуатация и т.д.).</td></tr>
+          <tr><td><strong>ITIL®</strong></td><td>Набор лучших практик по управлению ИТ-услугами; ServiceDesk Plus поддерживает процессы, согласованные с рекомендациями ITIL.</td></tr>
+          <tr><td><strong>CMDB</strong></td><td>База данных управления конфигурацией (Configuration Management Database) — хранилище элементов конфигурации (CI) и связей между ними для учёта инфраструктуры и влияния изменений.</td></tr>
+          <tr><td><strong>SLA</strong></td><td>Соглашение об уровне обслуживания (Service Level Agreement) — зафиксированные сроки реакции и решения заявок с эскалацией при нарушении.</td></tr>
+          <tr><td><strong>WebRemote</strong></td><td>Функция удалённого доступа к рабочим станциям пользователей из консоли ServiceDesk Plus (доступна в редакциях Professional и Enterprise).</td></tr>
+          <tr><td><strong>SaaS</strong></td><td>Программное обеспечение как услуга — облачное развёртывание с подпиской, без установки на собственных серверах.</td></tr>
+          <tr><td><strong>On-premises</strong></td><td>Локальное развёртывание — установка и эксплуатация продукта на инфраструктуре заказчика.</td></tr>
+          <tr><td><strong>MSP</strong></td><td>Managed Service Provider — провайдер управляемых услуг, оказывающий ИТ-услуги нескольким заказчикам на проактивной основе; для них предназначена отдельная версия ServiceDesk Plus MSP.</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <section id="sources" class="sources">
+      <h2>Источники и полезные ссылки</h2>
+      <ul>
+        <li>Официальная страница продукта: <a href="https://www.manageengine.com/products/service-desk/" target="_blank" rel="noopener">manageengine.com/products/service-desk</a></li>
+        <li>Сравнение редакций: <a href="https://www.manageengine.com/products/service-desk/sdp-editions.html" target="_blank" rel="noopener">sdp-editions.html</a></li>
+        <li>On-Premises vs. Cloud: <a href="https://www.manageengine.com/products/service-desk/hosted-on-premise-vs-saas-cloud.html" target="_blank" rel="noopener">hosted-on-premise-vs-saas-cloud.html</a></li>
+        <li>ServiceDesk Plus MSP: <a href="https://www.manageengine.com/products/service-desk-msp/" target="_blank" rel="noopener">service-desk-msp</a></li>
+        <li>Клиенты: <a href="https://www.manageengine.com/customers.html" target="_blank" rel="noopener">customers.html</a></li>
+      </ul>
+    </section>
+  </div>
+
+  <script>
+    (function() {
+      var themeKey = 'sdp-overview-theme';
+      var root = document.documentElement;
+      var btn = document.getElementById('themeToggle');
+
+      function getTheme() { return localStorage.getItem(themeKey) || 'light'; }
+      function setTheme(v) {
+        document.body.setAttribute('data-theme', v);
+        localStorage.setItem(themeKey, v);
+        btn.setAttribute('aria-label', v === 'light' ? 'Переключить на тёмную тему' : 'Переключить на светлую тему');
+        btn.querySelector('svg').innerHTML = v === 'light'
+          ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />'
+          : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />';
+      }
+
+      setTheme(getTheme());
+      btn.addEventListener('click', function() {
+        var next = getTheme() === 'light' ? 'dark' : 'light';
+        setTheme(next);
+      });
+    })();
+  </script>
+</body>
+</html>

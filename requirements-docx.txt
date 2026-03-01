@@ -1,0 +1,2 @@
+# Для генерации DOCX (запуск: pip install -r requirements-docx.txt)
+python-docx>=1.0.0
