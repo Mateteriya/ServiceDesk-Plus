@@ -29,6 +29,7 @@
       --header-accent-line: linear-gradient(90deg, #e8b84a, #f5d078, #d4a02a);
     }
     /* В этой странице только тёмная тема (для PDF-сервисов, которые не применяют data-theme) */
+    .theme-toggle { display: none !important; }
     * { box-sizing: border-box; }
     html { overflow-x: hidden; }
     body {
@@ -166,31 +167,21 @@
     }
     section:nth-of-type(odd) { background: linear-gradient(180deg, var(--section-bg) 0%, var(--block-bg) 100%); }
     section:last-of-type { margin-bottom: 0; }
-    section.intro {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      padding: 36px 40px;
-      background: linear-gradient(135deg, var(--block-bg) 0%, var(--surface2) 100%);
-      border-left: 4px solid var(--accent);
+    .header-hero {
+      margin-top: 20px;
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
       box-shadow: 0 2px 12px var(--shadow);
     }
-    section.intro p { margin: 0; font-size: 1.1rem; color: var(--text-muted); line-height: 1.7; flex: 1 1 auto; min-width: 0; }
-    section.intro .intro-logo {
-      flex: 0 0 auto;
-      width: 240px;
-      max-width: 40%;
-    }
-    section.intro .intro-logo img {
+    .header-hero img {
       width: 100%;
       height: auto;
       display: block;
       border-radius: 12px;
-      box-shadow: 0 2px 12px var(--shadow);
     }
     @media (max-width: 640px) {
-      section.intro { flex-direction: column; gap: 20px; }
-      section.intro .intro-logo { max-width: 100%; width: 200px; }
+      .header-hero { margin-top: 14px; }
     }
     table {
       width: 100%;
@@ -393,7 +384,6 @@
         margin-bottom: 14px;
         border-radius: 12px;
       }
-      section.intro { padding: 24px 14px; }
       h1 { font-size: 1.75rem; }
       h2 { font-size: 1.45rem; }
       p { font-size: 1rem; }
@@ -440,14 +430,10 @@
           <a href="#sources">Источники</a>
         </nav>
       </div>
-    </header>
-
-    <section class="intro">
-      <p>В этом документе описаны особенности и функционал ServiceDesk Plus ManageEngine: редакции продукта, варианты развёртывания (облако и on-premises), основные возможности по модулям, преимущества, ограничения и пояснение основных терминов.</p>
-      <div class="intro-logo" aria-hidden="true">
+      <div class="header-hero" aria-hidden="true">
         <img src="images/overview.png" alt="">
       </div>
-    </section>
+    </header>
 
     <section id="about">
       <h2>1. О продукте</h2>
