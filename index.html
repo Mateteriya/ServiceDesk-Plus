@@ -360,12 +360,6 @@
       overflow: hidden;
     }
     .screenshot-box img { width: 100%; height: auto; display: block; border-radius: 14px; }
-    .screenshot-fig figcaption {
-      margin-top: 12px;
-      font-size: 0.98rem;
-      color: var(--text-muted);
-      font-style: italic;
-    }
     .func-grid { display: grid; grid-template-columns: 1fr; gap: 36px; }
     .func-block {
       padding: 24px 28px;
@@ -497,6 +491,12 @@
           <p>Редактирование процессов и объектов — в графическом интерфейсе (drag & drop); для глубокой кастомизации доступны пользовательские функции и скрипты (на базе поддерживаемых технологий).</p>
         </div>
       </div>
+      <figure class="screenshot-fig">
+        <div class="screenshot-box">
+          <img src="images/Interface%20SDP.png" alt="Интерфейс ServiceDesk Plus" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
+          <span class="screenshot-placeholder" style="display:block">Скриншот: интерфейс (images/Interface SDP.png)</span>
+        </div>
+      </figure>
     </section>
 
     <section id="editions">
@@ -566,7 +566,6 @@
               <img src="images/incidents.png" alt="Управление инцидентами" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
               <span class="screenshot-placeholder" style="display:block">Скриншот: список заявок / карточка инцидента (images/incidents.png)</span>
             </div>
-            <figcaption>Работа с заявками и инцидентами</figcaption>
           </figure>
         </div>
         <div class="func-block">
@@ -593,7 +592,6 @@
               <img src="images/assets.png" alt="Управление активами" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
               <span class="screenshot-placeholder" style="display:block">Скриншот: активы (images/assets.png)</span>
             </div>
-            <figcaption>Учёт активов и лицензий</figcaption>
           </figure>
         </div>
         <div class="func-block">
@@ -621,7 +619,6 @@
               <img src="images/cmdb.png" alt="CMDB" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
               <span class="screenshot-placeholder" style="display:block">Скриншот: карта связей CMDB (images/cmdb.png)</span>
             </div>
-            <figcaption>Карта связей и элементы конфигурации</figcaption>
           </figure>
         </div>
         <div class="func-block">
@@ -649,7 +646,6 @@
               <img src="images/catalog.png" alt="Каталог услуг" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
               <span class="screenshot-placeholder" style="display:block">Скриншот: каталог услуг (images/catalog.png)</span>
             </div>
-            <figcaption>Каталог услуг и запросы на обслуживание</figcaption>
           </figure>
         </div>
         <div class="func-block">
@@ -677,7 +673,6 @@
               <img src="images/changes.png" alt="Управление изменениями" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
               <span class="screenshot-placeholder" style="display:block">Скриншот: процесс изменения (images/changes.png)</span>
             </div>
-            <figcaption>Жизненный цикл изменения</figcaption>
           </figure>
         </div>
         <div class="func-block">
@@ -708,7 +703,6 @@
               <img src="images/portal.png" alt="Портал самообслуживания" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
               <span class="screenshot-placeholder" style="display:block">Скриншот: портал (images/portal.png)</span>
             </div>
-            <figcaption>Портал самообслуживания и база знаний</figcaption>
           </figure>
         </div>
         <div class="func-block">
@@ -738,7 +732,6 @@
               <img src="images/reports.png" alt="Отчёты и дашборды" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
               <span class="screenshot-placeholder" style="display:block">Скриншот: дашборд (images/reports.png)</span>
             </div>
-            <figcaption>Отчёты и панели мониторинга</figcaption>
           </figure>
         </div>
         <div class="func-block">
@@ -767,7 +760,6 @@
               <img src="images/esm.png" alt="Портал ESM и экземпляры служб" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
               <span class="screenshot-placeholder" style="display:block">Скриншот: портал ESM / экземпляры служб (images/esm.png)</span>
             </div>
-            <figcaption>Портал ESM и работа с экземплярами</figcaption>
           </figure>
         </div>
         <div class="func-block">
@@ -794,7 +786,6 @@
               <img src="images/integrations.png" alt="Интеграции" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';var s=this.nextElementSibling;if(s)s.style.display='block';">
               <span class="screenshot-placeholder" style="display:block">Скриншот: настройки интеграций (images/integrations.png)</span>
             </div>
-            <figcaption>Подключение внешних систем</figcaption>
           </figure>
         </div>
       </div>
