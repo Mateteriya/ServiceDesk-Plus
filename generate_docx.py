@@ -41,14 +41,6 @@ def run():
     r.font.name = 'Times New Roman'
     title.space_after = Pt(24)
 
-    # Вводный абзац
-    intro = doc.add_paragraph(
-        'В этом документе описаны особенности и функционал ServiceDesk Plus ManageEngine: '
-        'редакции продукта, варианты развёртывания (облако и on-premises), основные возможности по модулям, '
-        'преимущества, ограничения и пояснение основных терминов.'
-    )
-    intro.paragraph_format.space_after = Pt(18)
-
     # ========== 1. О продукте ==========
     doc.add_heading('1. О продукте', level=0)
     doc.add_paragraph(
