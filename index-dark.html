@@ -332,6 +332,82 @@
       overflow: hidden;
     }
     .screenshot-box img { width: 100%; height: auto; display: block; border-radius: 14px; }
+    details.more-screenshots {
+      margin-top: 1em;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--surface2);
+    }
+    details.more-screenshots summary {
+      padding: 12px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--accent);
+      list-style: none;
+      user-select: none;
+    }
+    details.more-screenshots summary::-webkit-details-marker { display: none; }
+    details.more-screenshots summary::after { content: ' ▼'; font-size: 0.85em; opacity: 0.8; }
+    details.more-screenshots[open] summary::after { content: ' ▲'; }
+    details.more-screenshots .more-screenshots-inner {
+      padding: 16px 20px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    details.more-screenshots .more-screenshots-inner img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px var(--shadow);
+      flex: 1 1 280px;
+      min-width: 0;
+      cursor: pointer;
+    }
+    details.more-screenshots .more-screenshots-inner img:hover { opacity: 0.92; }
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.85);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      cursor: pointer;
+    }
+    #lightbox.show { display: flex; }
+    #lightbox img {
+      max-width: 95vw;
+      max-height: 95vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+      pointer-events: none;
+    }
+    #lightbox .lightbox-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 44px;
+      height: 44px;
+      border: 2px solid rgba(255,255,255,0.5);
+      border-radius: 50%;
+      background: rgba(0,0,0,0.4);
+      color: #fff;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: auto;
+    }
+    #lightbox .lightbox-close:hover { background: rgba(255,255,255,0.2); border-color: #fff; }
     .func-grid { display: grid; grid-template-columns: 1fr; gap: 36px; }
     .func-block {
       padding: 24px 28px;
@@ -534,6 +610,14 @@
               <span class="screenshot-placeholder" style="display:block">Скриншот: список заявок / карточка инцидента (images/incidents.png)</span>
             </div>
           </figure>
+          <details class="more-screenshots">
+            <summary>Раскрыть больше скриншотов</summary>
+            <div class="more-screenshots-inner">
+              <img src="images/workflow.png" alt="Workflow">
+              <img src="images/ZHC.png" alt="ZHC">
+              <img src="images/Zayavki.PNG" alt="Список заявок">
+            </div>
+          </details>
         </div>
         <div class="func-block">
           <h3>Управление активами (ITAM)</h3>
@@ -587,6 +671,12 @@
               <span class="screenshot-placeholder" style="display:block">Скриншот: карта связей CMDB (images/cmdb.png)</span>
             </div>
           </figure>
+          <details class="more-screenshots">
+            <summary>Раскрыть больше скриншотов</summary>
+            <div class="more-screenshots-inner">
+              <img src="images/cmdb3.png" alt="CMDB">
+            </div>
+          </details>
         </div>
         <div class="func-block">
           <h3>Каталог услуг</h3>
@@ -641,6 +731,12 @@
               <span class="screenshot-placeholder" style="display:block">Скриншот: процесс изменения (images/changes.png)</span>
             </div>
           </figure>
+          <details class="more-screenshots">
+            <summary>Раскрыть больше скриншотов</summary>
+            <div class="more-screenshots-inner">
+              <img src="images/Change2.PNG" alt="Управление изменениями">
+            </div>
+          </details>
         </div>
         <div class="func-block">
           <h3>База знаний и портал самообслуживания</h3>
@@ -700,6 +796,12 @@
               <span class="screenshot-placeholder" style="display:block">Скриншот: дашборд (images/reports.png)</span>
             </div>
           </figure>
+          <details class="more-screenshots">
+            <summary>Раскрыть больше скриншотов</summary>
+            <div class="more-screenshots-inner">
+              <img src="images/dashboard.png" alt="Дашборд">
+            </div>
+          </details>
         </div>
         <div class="func-block">
           <h3>Enterprise Service Management (ESM)</h3>
@@ -754,6 +856,12 @@
               <span class="screenshot-placeholder" style="display:block">Скриншот: настройки интеграций (images/integrations.png)</span>
             </div>
           </figure>
+          <details class="more-screenshots">
+            <summary>Раскрыть больше скриншотов</summary>
+            <div class="more-screenshots-inner">
+              <img src="images/integration1.jpg" alt="Интеграции">
+            </div>
+          </details>
         </div>
       </div>
     </section>
@@ -841,6 +949,11 @@
     </section>
   </div>
 
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Скриншот в полном размере">
+    <button type="button" class="lightbox-close" aria-label="Закрыть">×</button>
+    <img src="" alt="Увеличенный скриншот">
+  </div>
+
   <script>
     (function() {
       var themeKey = 'sdp-overview-theme';
@@ -861,6 +974,31 @@
       btn.addEventListener('click', function() {
         var next = getTheme() === 'light' ? 'dark' : 'light';
         setTheme(next);
+      });
+    })();
+
+    (function() {
+      var lb = document.getElementById('lightbox');
+      var lbImg = lb.querySelector('img');
+      var lbClose = lb.querySelector('.lightbox-close');
+      function openLightbox(src) {
+        lbImg.src = src;
+        lb.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeLightbox() {
+        lb.classList.remove('show');
+        lbImg.src = '';
+        document.body.style.overflow = '';
+      }
+      document.querySelectorAll('.more-screenshots-inner img').forEach(function(img) {
+        img.addEventListener('click', function() { openLightbox(this.src); });
+      });
+      lb.addEventListener('click', function(e) {
+        if (e.target === lb || e.target === lbClose) closeLightbox();
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && lb.classList.contains('show')) closeLightbox();
       });
     })();
   </script>
